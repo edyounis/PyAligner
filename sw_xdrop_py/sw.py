@@ -76,7 +76,7 @@ if __name__ == "__main__":
 	seq2 = Sequence( args.input2.read() )
 
 	scorer = Scorer( args.match_score, args.mismatch_score,
-					 args.gap_score, args.affine_score )
+					 args.gap_score, args.xdrop, args.affine_score )
 
 	dp_matrix = DPMatrix( seq1, seq2, scorer )
 	print( dp_matrix )

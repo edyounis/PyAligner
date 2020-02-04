@@ -25,6 +25,8 @@ class DPMatrix():
         self.dp_matrix = [ [ -9999 for h in range( self.dimh ) ]
                            for v in range( self.dimv ) ]
 
+        self.max_score = -9999
+
         self.run_sw()
 
     def run_sw ( self ):
@@ -41,7 +43,15 @@ class DPMatrix():
             for c, h in enumerate( self.seqh ):
                 r_p = r + 1
                 c_p = c + 1
-                self.dp_matrix[r_p][c_p] = self.scorer.calc_square_value( self.dp_matrix[r_p][c_p-1], self.dp_matrix[r_p-1][c_p], self.dp_matrix[r_p-1][c_p-1], h, v  )
+                res = self.scorer.calc_sq_value( self.dp_matrix[r_p][c_p-1],
+                                                 self.dp_matrix[r_p-1][c_p],
+                                                 self.dp_matrix[r_p-1][c_p-1],
+                                                 h, v, self.max_score  )
+
+                if res != "X" and res >= self.max_score:
+                    self.max_score = res
+
+                self.dp_matrix[r_p][c_p] = res
 
     def __str__ ( self ):
         str_builder = ""
