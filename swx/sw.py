@@ -80,5 +80,8 @@ if __name__ == "__main__":
 
 	dp_matrix = DPMatrix( seq1, seq2, scorer )
 	print( dp_matrix )
+	print( dp_matrix.calc_match_seq() )
+
+	# print( dp_matrix.calc_match_seq() )
 
 

@@ -25,7 +25,7 @@ class Scorer():
 		self.affine   = affine
 
 	def calc_sq_value ( self, left_score, above_score, diag_score,
-					    nuch, nucv, max_score ):
+						nuch, nucv, max_score ):
 
 		potential_values = []
 
@@ -50,3 +50,22 @@ class Scorer():
 			res = "X"
 
 		return res
+
+	def calc_sq_dir ( self, left_score, above_score, diag_score,
+					  nuch, nucv, this_score ):
+
+		if diag_score != "X":
+			if nuch == nucv and diag_score + self.match == this_score:
+				return (-1, -1)
+			if nuch != nucv and diag_score + self.mismatch == this_score:
+				return (-1, -1)
+
+		if left_score != "X":
+			if left_score + self.gap == this_score:
+				return (0, -1)
+
+		if above_score != "X":
+			if above_score + self.gap == this_score:
+				return (-1, 0)
+
+		raise RuntimeError( "Failure to calculate direction." )
