@@ -1,5 +1,5 @@
-from seq import Sequence
-from score import Scorer
+from .seq import Sequence
+from .score import Scorer
 
 class DPMatrix():
 	"""Dynamic Programming Matrix Class"""
