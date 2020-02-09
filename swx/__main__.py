@@ -1,8 +1,15 @@
+"""
+This module implements the Needleman-Wunsch Algorithm.
+
+The backtracing step is modified to start with maximum score and extend
+to the top-left and down to bottom-right. This follows one path that
+contains the maximal matching sequence.
+
+This algorithm also implements an X-Drop termination condition.
+"""
+
 # Todo:
-# Make a proper python package
-# Add __str__ __repr__ funcs to objects
-# Add Documentation + Proper comments
-# Add Affine Gap
+# Add Readme
 # Add Tests
 
 import os
@@ -22,17 +29,21 @@ if __name__ == "__main__":
 	parser.add_argument( "-x", "--xdrop", type = int, default = 7,
 						 help = "X-Drop Value" )
 
-	parser.add_argument( "-m", "--match_score", type = int, default = 1,
+	parser.add_argument( "-m", "--match-score", type = int, default = 1,
 						 help = "Match Score" )
 
-	parser.add_argument( "-i", "--mismatch_score", type = int, default = -1,
+	parser.add_argument( "-i", "--mismatch-score", type = int, default = -1,
 						 help = "Mismatch Score" )
 
-	parser.add_argument( "-g", "--gap_score", type = int, default = -1,
+	parser.add_argument( "-g", "--gap-score", type = int, default = -1,
 						 help = "Gap Score" )
 
-	parser.add_argument( "-a", "--affine_score", type = int, default = None,
-						 help = "Affine Gap Score" )
+	parser.add_argument( "-s", "--semiglobal", action = "store_true",
+						 help = "Only run the semi-global alignment." )
+
+	parser.add_argument( "-v", "--verbosity", action = "count", default = 0,
+						 help = "Level 1: print match score," + \
+								"2: print match sequences, 3: print dp matrix." )
 
 	args = parser.parse_args()
 
@@ -40,8 +51,23 @@ if __name__ == "__main__":
 	seq2 = Sequence( args.input2.read() )
 
 	scorer = Scorer( args.match_score, args.mismatch_score,
-					 args.gap_score, args.xdrop, args.affine_score )
+					 args.gap_score, args.xdrop )
 
-	dp_matrix = DPMatrix( seq1, seq2, scorer )
-	print( dp_matrix )
-	print( dp_matrix.calc_match_seq() )
+	dp_matrix = DPMatrix( seq1, seq2, scorer, args.semiglobal )
+
+	if args.verbosity == 0:
+		print( dp_matrix.calc_alignment_score() )
+
+	if args.verbosity >= 1:
+		print( "Exit Alignment Score:", dp_matrix.calc_alignment_score() )
+		print( "Best Alignment Score:", dp_matrix.max_score )
+		match_seqs = dp_matrix.calc_match_seq()
+		print( "Number of matches:", match_seqs[2] )
+
+		if args.verbosity >= 2:
+			print( "First Matched Sequence:", match_seqs[0] )
+			print( "Second Matched Sequence:", match_seqs[1] )
+
+		if args.verbosity >= 3:
+			print()
+			print( dp_matrix )
