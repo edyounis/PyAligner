@@ -13,7 +13,7 @@ import argparse
 from pyaligner import Sequence, Scorer, DPMatrix
 
 if __name__ == "__main__":
-    description = "Smith-Waterman Algorithm with X-Drop"
+    description = "Needleman-Wunsch Algorithm with X-Drop"
     parser = argparse.ArgumentParser( description = description )
 
     parser.add_argument( "input1", type = argparse.FileType(),
