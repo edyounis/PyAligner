@@ -52,9 +52,9 @@ class DPMatrix():
 		self.max_row   = -1
 		self.max_col   = -1
 
-		self.semiglobal_alignment()
+		self.fill_grid()
 
-	def semiglobal_alignment ( self ):
+	def fill_grid ( self ):
 		"""
 		Fills in the dynamic programming grid according the semiglobal
 		alignment algorithm.
@@ -107,7 +107,7 @@ class DPMatrix():
 			dirt = self.scorer.calc_sq_dir_forw( self.dp_matrix[r][c+1],
 												  self.dp_matrix[r+1][c],
 												  self.dp_matrix[r+1][c+1],
-												  h, v, self.dp_matrix[r][c] )
+												  h, v )
 
 			r += dirt[0]
 			c += dirt[1]
@@ -192,7 +192,7 @@ class DPMatrix():
 			dirt = self.scorer.calc_sq_dir_forw( self.dp_matrix[r][c+1],
 												  self.dp_matrix[r+1][c],
 												  self.dp_matrix[r+1][c+1],
-												  h, v, self.dp_matrix[r][c] )
+												  h, v )
 
 			r += dirt[0]
 			c += dirt[1]

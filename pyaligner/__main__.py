@@ -8,13 +8,9 @@ contains the maximal matching sequence.
 This algorithm also implements an X-Drop termination condition.
 """
 
-# Todo:
-# Add Readme
-# Add Tests
-
 import os
 import argparse
-from swx import Sequence, Scorer, DPMatrix
+from pyaligner import Sequence, Scorer, DPMatrix
 
 if __name__ == "__main__":
 	description = "Smith-Waterman Algorithm with X-Drop"
